@@ -1,0 +1,240 @@
+openapi: 3.0.3
+info:
+  title: EXAM-PROTECT Backend API
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /v1/health:
+    get:
+      summary: Health
+      responses:
+        '200': { description: OK }
+  /v1/admin/login:
+    post:
+      summary: Admin login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username: { type: string }
+                password: { type: string }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token: { type: string }
+  /v1/admin/exams:
+    get:
+      summary: List exams
+      security: [{ bearerAuth: [] }]
+      responses: { '200': { description: OK } }
+    post:
+      summary: Create exam
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExamPolicy'
+      responses: { '200': { description: OK } }
+  /v1/admin/exams/{examId}:
+    get:
+      summary: Get exam
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - in: path
+          name: examId
+          required: true
+          schema: { type: string }
+      responses: { '200': { description: OK }, '404': { description: Not Found } }
+    put:
+      summary: Update exam
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - in: path
+          name: examId
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExamPolicy'
+      responses: { '200': { description: OK } }
+    delete:
+      summary: Deactivate exam
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - in: path
+          name: examId
+          required: true
+          schema: { type: string }
+      responses: { '204': { description: No Content } }
+  /v1/exams/{examId}/config:
+    get:
+      summary: Get signed exam config
+      parameters:
+        - in: path
+          name: examId
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  examId: { type: string }
+                  jws: { type: string }
+  /v1/sessions/start:
+    post:
+      summary: Start session
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SessionStart'
+      responses:
+        '200':
+          description: OK
+  /v1/sessions/{sessionId}/heartbeat:
+    post:
+      summary: Heartbeat
+      parameters:
+        - in: path
+          name: sessionId
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Heartbeat'
+      responses:
+        '200': { description: OK }
+  /v1/sessions/{sessionId}/violations:
+    post:
+      summary: Report violation
+      parameters:
+        - in: path
+          name: sessionId
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Violation'
+      responses:
+        '202': { description: Accepted }
+  /v1/sessions/{sessionId}/complete:
+    post:
+      summary: Complete session
+      parameters:
+        - in: path
+          name: sessionId
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Complete'
+      responses:
+        '200': { description: OK }
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Branding:
+      type: object
+      properties:
+        appName: { type: string }
+        primaryColor: { type: string }
+        logoUrl: { type: string }
+    ExamPolicy:
+      type: object
+      properties:
+        examId: { type: string }
+        title: { type: string }
+        launchUrl: { type: string, format: uri }
+        mobileLaunchUrl: { type: string, format: uri }
+        desktopLaunchUrl: { type: string, format: uri }
+        autoVariant: { type: boolean }
+        rendererHint: { type: string }
+        allowedDomains:
+          type: array
+          items: { type: string }
+        blockExternalNavigation: { type: boolean }
+        enableCopyPaste: { type: boolean }
+        enableDownloads: { type: boolean }
+        enableUploads: { type: boolean }
+        heartbeatSeconds: { type: integer }
+        teacherPinHash: { type: string }
+        entryPinHash: { type: string }
+        entryPinRequired: { type: boolean }
+        maxBackgroundSeconds: { type: integer }
+        violationThreshold: { type: integer }
+        managedMode: { type: boolean }
+        branding: { $ref: '#/components/schemas/Branding' }
+        platformOverrides:
+          type: object
+      required: [examId, title, launchUrl, allowedDomains]
+    SessionStart:
+      type: object
+      properties:
+        deviceId: { type: string }
+        examId: { type: string }
+        entryPin: { type: string }
+        mode: { type: string }
+        appVersion: { type: string }
+        capabilities: { type: object }
+        policyHash: { type: string }
+    SessionStartResponse:
+      type: object
+      properties:
+        sessionId: { type: string }
+        heartbeatSeconds: { type: integer }
+        serverTime: { type: string }
+        launchUrl: { type: string, format: uri }
+    Heartbeat:
+      type: object
+      properties:
+        timestamp: { type: string, format: date-time }
+        violations: { type: integer }
+        events:
+          type: array
+          items: { type: object }
+        metrics: { type: object }
+        nonce: { type: string }
+    Violation:
+      type: object
+      properties:
+        type: { type: string }
+        detail: { type: string }
+        ts: { type: string, format: date-time }
+    Complete:
+      type: object
+      properties:
+        endedReason: { type: string }
+        violations: { type: integer }
+        summary: { type: object }

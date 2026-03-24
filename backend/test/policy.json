@@ -1,0 +1,21 @@
+{
+  "examId": "android-emulator-exam",
+  "title": "Android Emulator Sample Exam",
+  "launchUrl": "http://10.0.2.2:8080/mock/exam",
+  "mobileLaunchUrl": "http://10.0.2.2:8080/mock/exam",
+  "desktopLaunchUrl": "http://localhost:8080/mock/exam",
+  "autoVariant": true,
+  "allowedDomains": ["10.0.2.2"],
+  "blockExternalNavigation": true,
+  "enableCopyPaste": false,
+  "enableDownloads": false,
+  "enableUploads": false,
+  "heartbeatSeconds": 15,
+  "teacherPinHash": "",
+  "entryPinHash": "$2a$10$LFiu/CdLhx9QAPc.hykYn.PBUbKiiseeukH9o9Ao.HMFnqeOIURx2",
+  "entryPinRequired": true,
+  "maxBackgroundSeconds": 0,
+  "violationThreshold": 3,
+  "managedMode": false,
+  "branding": { "appName": "EXAM-PROTECT" }
+}

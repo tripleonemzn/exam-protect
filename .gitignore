@@ -1,0 +1,16 @@
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log
+logs/
+dist/
+android-app/.gradle/
+android-app/.idea/
+android-app/build/
+android-app/app/build/
+android-app/app/release/
+android-app/app/debug/
+android-app/app/outputs/
+backend/public/downloads/*
+!backend/public/downloads/.keep

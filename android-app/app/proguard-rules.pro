@@ -1,0 +1,4 @@
+-keep class dagger.hilt.** { *; }
+-keep class javax.inject.** { *; }
+-dontwarn javax.annotation.**
+-dontwarn dagger.hilt.**

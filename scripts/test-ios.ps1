@@ -1,0 +1,5 @@
+Write-Host "Pengujian iOS memerlukan macOS + Xcode."
+Write-Host "Langkah ringkas di Mac:"
+Write-Host "1) Buka ios-app/ di Xcode, buat target project baru jika belum ada."
+Write-Host "2) Tambahkan folder sumber: ExamProtect/* ke target."
+Write-Host "3) Build & run di simulator, jalankan unit tests di ExamProtectTests."

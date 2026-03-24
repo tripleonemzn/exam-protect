@@ -1,0 +1,17 @@
+{
+  "examId": "sample-exam-001",
+  "launchUrl": "https://example.com/exam",
+  "allowedDomains": ["example.com", "docs.google.com", "forms.gle", "accounts.google.com"],
+  "blockExternalNavigation": true,
+  "enableCopyPaste": false,
+  "enableDownloads": false,
+  "enableUploads": false,
+  "heartbeatSeconds": 15,
+  "teacherPinRequired": true,
+  "maxBackgroundSeconds": 3,
+  "violationThreshold": 3,
+  "managedMode": false,
+  "branding": {
+    "appName": "EXAM-PROTECT"
+  }
+}

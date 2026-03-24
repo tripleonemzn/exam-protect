@@ -1,0 +1,14 @@
+{
+  "deviceId": "win-desktop-001",
+  "examId": "android-emulator-exam",
+  "mode": "BYOD",
+  "appVersion": "dev-backend-verify",
+  "capabilities": {
+    "webview": true,
+    "screenshotDetection": false,
+    "deviceType": "android"
+  },
+  "policyHash": ""
+  ,
+  "entryPin": "123456"
+}
