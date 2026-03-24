@@ -23,7 +23,7 @@ object UpdateManager {
       val currentCode = com.examprotect.app.BuildConfig.VERSION_CODE
       val hasUrl = !info.downloadUrl.isNullOrBlank()
       if (info.versionCode > currentCode && hasUrl) {
-        notify(context, info.versionName ?: "Update", info.notes ?: "Versi baru tersedia", info.downloadUrl!!)
+        notify(context, info.versionName, info.notes ?: "Versi baru tersedia", info.downloadUrl!!)
       }
     }
   }
