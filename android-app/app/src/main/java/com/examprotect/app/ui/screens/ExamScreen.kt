@@ -89,7 +89,6 @@ fun ExamScreen(onFinish: () -> Unit, initialUrl: String? = null, initialExamId: 
   val kiosk = rememberKioskController()
   val sessionRepo = rememberSessionRepository()
   val session = remember { SessionManager(violation, kiosk, sessionRepo) }
-  val violationCount by violation.countFlow().collectAsState(initial = 0)
   LaunchedEffect(Unit) { violation.reset() }
   LaunchedEffect(Unit) {
     val caps = mapOf("webview" to true, "screenshotDetection" to false, "deviceType" to "android")

@@ -30,7 +30,6 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Build debug APK
-        working-directory: android-app
         run: ./gradlew :app:assembleDebug --stacktrace
 
       - name: Prepare artifact
